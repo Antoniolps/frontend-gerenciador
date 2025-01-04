@@ -3,14 +3,16 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import axios from '../../api';
 import { Link } from 'react-router-dom';
-import { FaPlus, FaEdit, FaTrash, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaCheckCircle, FaExclamationTriangle, FaQuestionCircle } from 'react-icons/fa';
 import Modal from 'react-modal';
+
 
 const ProdutoList = () => {
   const [produtos, setProdutos] = useState([]);
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
   const [modalAberto, setModalAberto] = useState(false);
   const [modalSucessoAberto, setModalSucessoAberto] = useState(false);
+  const [tooltipAberto, setTooltipAberto] = useState(false);
 
   useEffect(() => {
     axios.get('/produtos')
@@ -47,11 +49,22 @@ const ProdutoList = () => {
     });
   };
 
-
+  const toggleTooltip = () => {
+    setTooltipAberto(!tooltipAberto);
+  };
 
   return (
     <div className="container mt-5">
-      <h2 className="mb-4" style={{position: "relative"}}>Lista de Fornecedores</h2>
+      <h2 className="mb-4" style={{position: "relative"}}>Lista de Produtos
+        <FaQuestionCircle
+          className='tooltip-icon'
+          onMouseEnter={toggleTooltip}
+          onMouseLeave={toggleTooltip}
+        />
+        {tooltipAberto && (<div className='tooltip'>
+          Aqui você pode visualizar, editar e excluir os produtos cadastrados no sistema.
+        </div>)}
+      </h2>
       <Link to="/add-produtos" className="btn btn-primary mb-2">
         <FaPlus className="icon"/> Adicionar Produto
       </Link>

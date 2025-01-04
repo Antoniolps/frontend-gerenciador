@@ -3,7 +3,7 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import axios from '../../api';
 import { Link } from 'react-router-dom';
-import { FaPlus, FaEdit, FaTrash, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaCheckCircle, FaExclamationTriangle, FaQuestionCircle } from 'react-icons/fa';
 import Modal from 'react-modal';
 
 const FornecedorList = () => {
@@ -11,6 +11,7 @@ const FornecedorList = () => {
     const [fornecedorSelecionado, setFornecedorSelecionado] = useState(null);
     const [modalAberto, setModalAberto] = useState(false);
     const [modalSucessoAberto, setModalSucessoAberto] = useState(false);
+    const [tooltipAberto, setTooltipAberto] = useState(false);
 
     useEffect(() => {
         axios.get('/fornecedores')
@@ -47,9 +48,22 @@ const FornecedorList = () => {
         });
     };
 
+    const toggleTooltip = () => {
+        setTooltipAberto(!tooltipAberto);
+    }
+
   return (
     <div className="container mt-5">
-        <h2 className="mb-4" style={{ position: 'relative'}}>Lista de Fornecedores</h2>
+        <h2 className="mb-4" style={{ position: 'relative'}}>Lista de Fornecedores
+            <FaQuestionCircle
+                className='tooltip-icon'
+                onMouseEnter={toggleTooltip}
+                onMouseLeave={toggleTooltip}
+            />
+            {tooltipAberto && (<div className='tooltip'>
+                Aqui você pode visualizar, editar e excluir os fornecedores cadastrados no sistema.
+            </div>)}
+        </h2>
         <Link to="/add-fornecedores" className="btn btn-primary mb-2">
             <FaPlus className="icon"/> Adicionar Fornecedor
         </Link>
@@ -67,7 +81,7 @@ const FornecedorList = () => {
                         return (
                             <tr key={fornecedor.id}>
                                 <td>{fornecedor.nome}</td>
-                                <td>{fornecedor.cnpj}</td>
+                                <td>{fornecedor.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, "$1.$2.$3/$4-$5")}</td>
                                 <td>{fornecedor.email}</td>
                                 <td>
                                     <Link to={`/edit-fornecedores/${fornecedor.id}`} className="btn btn-sm btn-warning">
