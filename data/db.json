@@ -174,7 +174,7 @@
       "nome": "Fornecedor Global",
       "cnpj": "01234567890123",
       "email": "global@fornecedoresglobal.com",
-      "tipoFornecedor": "COMUM",
+      "tipoFornecedor": "PREMIUM",
       "endereco": {
         "cep": "80000-000",
         "logradouro": "Rua do Comércio Exterior",
@@ -223,73 +223,105 @@
       "preco": "250.00",
       "descricao": "Fone sem fio com excelente qualidade de som.",
       "quantidadeEstoque": 50
+    },
+    {
+      "nome": "Notebook Gamer",
+      "preco": "10000.00",
+      "descricao": "Computador muito potente, bom e caro",
+      "quantidadeEstoque": "2",
+      "id": 6
     }
   ],
   "clientes": [
     {
       "id": 1,
       "nome": "Carlos da Silva",
-      "cpf": "123.456.789-10",
+      "cpf": "59766103070",
       "email": "carlos.silva@gmail.com",
-      "cep": "01010-000",
-      "rua": "Rua Central",
-      "numero": "123",
-      "bairro": "Centro",
-      "cidade": "São Paulo",
-      "estado": "SP",
-      "pais": "Brasil"
+      "endereco": {
+        "cep": "01010-000",
+        "logradouro": "Rua Central",
+        "numero": "123",
+        "bairro": "Centro",
+        "cidade": "São Paulo",
+        "estado": "SP",
+        "pais": "Brasil"
+      }
     },
     {
       "id": 2,
       "nome": "Ana Maria Oliveira",
       "cpf": "987.654.321-00",
       "email": "ana.oliveira@hotmail.com",
-      "cep": "02020-000",
-      "rua": "Avenida Paulista",
-      "numero": "456",
-      "bairro": "Bela Vista",
-      "cidade": "São Paulo",
-      "estado": "SP",
-      "pais": "Brasil"
+      "endereco": {
+        "cep": "02020-000",
+        "logradouro": "Avenida Paulista",
+        "numero": "456",
+        "bairro": "Bela Vista",
+        "cidade": "São Paulo",
+        "estado": "SP",
+        "pais": "Brasil"
+      }
     },
     {
       "id": 3,
       "nome": "João Pereira",
       "cpf": "111.222.333-44",
       "email": "joao.pereira@yahoo.com",
-      "cep": "03030-000",
-      "rua": "Rua das Flores",
-      "numero": "789",
-      "bairro": "Jardins",
-      "cidade": "Rio de Janeiro",
-      "estado": "RJ",
-      "pais": "Brasil"
+      "endereco": {
+        "cep": "03030-000",
+        "logradouro": "Rua das Flores",
+        "numero": "789",
+        "bairro": "Jardins",
+        "cidade": "Rio de Janeiro",
+        "estado": "RJ",
+        "pais": "Brasil"
+      }
     },
     {
       "id": 4,
       "nome": "Mariana Santos",
       "cpf": "444.555.666-77",
       "email": "mariana.santos@gmail.com",
-      "cep": "04040-000",
-      "rua": "Praça das Águas",
-      "numero": "101",
-      "bairro": "Águas Claras",
-      "cidade": "Curitiba",
-      "estado": "PR",
-      "pais": "Brasil"
+      "endereco": {
+        "cep": "04040-000",
+        "logradouro": "Praça das Águas",
+        "numero": "101",
+        "bairro": "Águas Claras",
+        "cidade": "Curitiba",
+        "estado": "PR",
+        "pais": "Brasil"
+      }
     },
     {
       "id": 5,
       "nome": "Pedro Rodrigues",
       "cpf": "555.666.777-88",
       "email": "pedro.rodrigues@outlook.com",
-      "cep": "05050-000",
-      "rua": "Travessa dos Pássaros",
-      "numero": "202",
-      "bairro": "Vila Nova",
-      "cidade": "Porto Alegre",
-      "estado": "RS",
-      "pais": "Brasil"
+      "endereco": {
+        "cep": "05050-000",
+        "logradouro": "Travessa dos Pássaros",
+        "numero": "202",
+        "bairro": "Vila Nova",
+        "cidade": "Porto Alegre",
+        "estado": "RS",
+        "pais": "Brasil"
+      }
+    },
+    {
+      "nome": "Antonio Lopes de Souza Neto",
+      "cpf": "83306118095",
+      "email": "antoniolps218@gmail.com",
+      "endereco": {
+        "cep": "58040530",
+        "logradouro": "Rua Etelvina Macedo de Mendonça",
+        "numero": "630",
+        "bairro": "Torre",
+        "cidade": "João Pessoa",
+        "estado": "PB",
+        "pais": "Brasil"
+      },
+      "id": 6
     }
   ]
 }

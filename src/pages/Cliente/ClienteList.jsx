@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from '../../api';
 import { Link } from 'react-router-dom';
 import { FaPlus, FaEdit, FaTrash, FaCheckCircle, FaExclamationTriangle, FaAddressCard, FaQuestionCircle } from 'react-icons/fa';
+import { FaLocationDot } from "react-icons/fa6";
 import Modal from 'react-modal';
 
 const ClienteList = () => {
@@ -16,11 +17,11 @@ const ClienteList = () => {
 
   useEffect(() => {
     axios.get('/clientes')
-    .then((response) => {
-      setClientes(response.data);
-    }).catch((error) => {
-      console.error("Erro ao carregar clientes.", error);
-    });
+      .then((response) => {
+        setClientes(response.data);
+      }).catch((error) => {
+        console.error("Erro ao carregar clientes.", error);
+      });
   }, []);
 
   const abrirModal = (cliente) => {
@@ -46,17 +47,17 @@ const ClienteList = () => {
   const abrirModalSucesso = () => {
     setModalSucessoAberto(true);
     setTimeout(() => setModalSucessoAberto(false), 2000);
-  }   
+  }
 
   const removerCliente = () => {
     axios.delete(`/clientes/${clienteSelecionado.id}`)
-    .then(() => {
-      setClientes(prevClientes => prevClientes.filter(cliente => cliente.id !== clienteSelecionado.id));
-      fecharModal();
-      abrirModalSucesso();
-    }).catch((error) => {
-      console.error("Erro ao excluir cliente.", error);
-    });
+      .then(() => {
+        setClientes(prevClientes => prevClientes.filter(cliente => cliente.id !== clienteSelecionado.id));
+        fecharModal();
+        abrirModalSucesso();
+      }).catch((error) => {
+        console.error("Erro ao excluir cliente.", error);
+      });
   }
 
   const toggleTooltip = () => {
@@ -65,7 +66,7 @@ const ClienteList = () => {
 
   return (
     <div className="container mt-5">
-      <h2 className="mb-4" style={{ position: 'relative'}}>Lista de Clientes
+      <h2 className="mb-4" style={{ position: 'relative' }}>Lista de Clientes
         <FaQuestionCircle
           className='tooltip-icon'
           onMouseEnter={toggleTooltip}
@@ -76,7 +77,7 @@ const ClienteList = () => {
         </div>)}
       </h2>
       <Link to="/add-clientes" className="btn btn-primary mb-2">
-        <FaPlus className="icon"/> Adicionar Cliente
+        <FaPlus className="icon" /> Adicionar Cliente
       </Link>
 
       <table className="table">
@@ -89,20 +90,20 @@ const ClienteList = () => {
         <tbody>
           {
             clientes.map(cliente => {
-              return(
+              return (
                 <tr key={cliente.id}>
                   <td>{cliente.nome}</td>
-                  <td>{cliente.cpf}</td>
+                  <td>{cliente.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")}</td>
                   <td>{cliente.email}</td>
                   <td>
                     <button onClick={() => abrirModalEndereco(cliente)} className="btn btn-sm btn-primary">
-                      <FaAddressCard className="icon icon-btn"/> Info.
+                      <FaAddressCard className="icon icon-btn" /> Info.
                     </button>
                     <Link to={`/edit-clientes/${cliente.id}`} className="btn btn-sm btn-warning">
-                      <FaEdit className="icon icon-btn"/> Editar
+                      <FaEdit className="icon icon-btn" /> Editar
                     </Link>
                     <button onClick={() => abrirModal(cliente)} className="btn btn-sm btn-danger">
-                      <FaTrash className="icon icon-btn"/> Excluir
+                      <FaTrash className="icon icon-btn" /> Excluir
                     </button>
                   </td>
                 </tr>
@@ -119,17 +120,17 @@ const ClienteList = () => {
         overlayClassName="overlay"
       >
         <div className="modalContent">
-          <FaExclamationTriangle className="icon"/>
-            <h2>Confirmar Exclusão</h2>
-              <p>
-                Tem certeza que deseja excluir o fornecedor 
-                <br />  
-                {clienteSelecionado && clienteSelecionado.nome}?
-              </p>
-              <div className="modalButtons">
-                <button onClick={fecharModal} className="btn btn-secondary">Cancelar</button>
-                <button onClick={removerCliente} className="btn btn-danger">Excluir</button>
-              </div>
+          <FaExclamationTriangle className="icon" />
+          <h2>Confirmar Exclusão</h2>
+          <p>
+            Tem certeza que deseja excluir o fornecedor
+            <br />
+            {clienteSelecionado && clienteSelecionado.nome}?
+          </p>
+          <div className="modalButtons">
+            <button onClick={fecharModal} className="btn btn-secondary">Cancelar</button>
+            <button onClick={removerCliente} className="btn btn-danger">Excluir</button>
+          </div>
         </div>
       </Modal>
 
@@ -138,33 +139,36 @@ const ClienteList = () => {
         onRequestClose={fecharModalEndereco}
         className="modal"
         overlayClassName="overlay"
-        style={{content: {
-          width: '50%', 
-          maxWidth: '500px',
-          textAlign: 'left'
-        }}}
+        style={{
+          content: {
+            width: '50%',
+            maxWidth: '500px',
+            textAlign: 'left'
+          }
+        }}
       >
         <div className='modalContent'>
+          <FaLocationDot className="icon" />
           <h2>Endereço</h2>
-          <div>
+          <div style={{ textAlign: 'center' }}>
             <p>
-              <strong>Logradouro:</strong> {clienteSelecionado && clienteSelecionado.rua}
-              <strong> Número:</strong> {clienteSelecionado && clienteSelecionado.numero}
+              <strong>Logradouro:</strong> <br />{clienteSelecionado && clienteSelecionado.endereco.logradouro}
             </p>
             <p>
-              <strong>Bairro:</strong> {clienteSelecionado && clienteSelecionado.bairro}
-              <strong> Cidade:</strong> {clienteSelecionado && clienteSelecionado.cidade}
+              <strong>CEP:</strong> {clienteSelecionado && clienteSelecionado.endereco.cep}
+              <strong>  Número:</strong> {clienteSelecionado && clienteSelecionado.endereco.numero}
             </p>
             <p>
-              <strong>Estado:</strong> {clienteSelecionado && clienteSelecionado.estado}
-              <strong> CEP:</strong> {clienteSelecionado && clienteSelecionado.cep}
+              <strong>Bairro:</strong> {clienteSelecionado && clienteSelecionado.endereco.bairro}
+              <strong>  Cidade:</strong> {clienteSelecionado && clienteSelecionado.endereco.cidade}
             </p>
             <p>
-              <strong>País:</strong> {clienteSelecionado && clienteSelecionado.pais}
+              <strong>Estado:</strong> {clienteSelecionado && clienteSelecionado.endereco.estado}
+              <strong>  País:</strong> {clienteSelecionado && clienteSelecionado.endereco.pais}
             </p>
           </div>
-          <div className='modalButtons' style={{justifyContent: 'right'}}>
-            <button onClick={fecharModalEndereco} className='btn btn-secondary'>Fechar</button> 
+          <div className='modalButtons' style={{ justifyContent: 'right' }}>
+            <button onClick={fecharModalEndereco} className='btn btn-secondary'>Fechar</button>
           </div>
         </div>
       </Modal>
@@ -176,7 +180,7 @@ const ClienteList = () => {
         verlayClassName="overlay"
       >
         <div className="modalContent">
-          <FaCheckCircle className="icon successIcon"/>
+          <FaCheckCircle className="icon successIcon" />
           <h2>Cliente excluído com sucesso!</h2>
         </div>
       </Modal>

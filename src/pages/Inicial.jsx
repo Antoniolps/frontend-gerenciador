@@ -34,7 +34,7 @@ const Inicial = () => {
   }
 
   return (
-    <div className="inicial-container">
+    <div className="inicial-container" style={{ margin: '20px' }}>
       <Link to="/listar-fornecedores" className="stat-box stat-box-blue">
         <h3>Fornecedores</h3>
         <p>16</p>
@@ -50,11 +50,11 @@ const Inicial = () => {
       <div className="charts-container">
         <div className="chart">
           <h3>Vendas de Produtos (Últimos 3 meses)</h3>
-          <Bar data={vendasData} />
+          <Bar data={vendasData}/>
         </div>
         <div className="chart">
           <h3>Novos Clientes (Últimos 3 meses)</h3>
-          <Bar data={clientesData} />
+          <Bar data={clientesData}/>
         </div>
       </div>
     </div>

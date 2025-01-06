@@ -72,7 +72,7 @@ const FornecedorForm = () => {
 
     setFornecedor({
       ...fornecedor,
-      endereco: {...fornecedor.endereco, cep: e.target.value}
+      endereco: { ...fornecedor.endereco, cep: e.target.value }
     })
 
     if (cep.length !== 8) {
@@ -80,23 +80,23 @@ const FornecedorForm = () => {
     }
 
     axios.get(`https://viacep.com.br/ws/${cep}/json/`)
-    .then(response => {
-      if(!response.data.erro){
-        setFornecedor(prevFornecedor => ({
-          ...prevFornecedor,
-          endereco: {
-            ...prevFornecedor.endereco,
-            logradouro: response.data.logradouro,
-            bairro: response.data.bairro,
-            cidade: response.data.localidade,
-            estado: response.data.uf
-          }
-        }))
-      }
-    })
-    .catch(error => {
-      console.error("Erro ao buscar CEP: ", error)
-    })
+      .then(response => {
+        if (!response.data.erro) {
+          setFornecedor(prevFornecedor => ({
+            ...prevFornecedor,
+            endereco: {
+              ...prevFornecedor.endereco,
+              logradouro: response.data.logradouro,
+              bairro: response.data.bairro,
+              cidade: response.data.localidade,
+              estado: response.data.uf
+            }
+          }))
+        }
+      })
+      .catch(error => {
+        console.error("Erro ao buscar CEP: ", error)
+      })
   }
 
   const handleSubmit = (event) => {
@@ -111,19 +111,19 @@ const FornecedorForm = () => {
     const request = id ? axios.put(`/fornecedores/${id}`, fornecedorData) : axios.post('/fornecedores', fornecedorData)
 
     request.then(() => setModalAberto(true))
-    .catch(error => {
-      if (error.response && error.response.status === 500) {
-        setMensagensError(["Erro no sistema, entre em contato com o suporte."])
-        setModalErroAberto(true)
-      } else if (error.response && error.response.data) {
-        setMensagensError(Object.values(error.response.data))
-        setModalErroAberto(true)
-      } else {
-        console.error("Erro ao salvar fornecedor: ", error)
-        setMensagensError(["Erro desconhecido, entre em contato com o suporte."])
-        setModalErroAberto(true)
-      }
-    })
+      .catch(error => {
+        if (error.response && error.response.status === 500) {
+          setMensagensError(["Erro no sistema, entre em contato com o suporte."])
+          setModalErroAberto(true)
+        } else if (error.response && error.response.data) {
+          setMensagensError(Object.values(error.response.data))
+          setModalErroAberto(true)
+        } else {
+          console.error("Erro ao salvar fornecedor: ", error)
+          setMensagensError(["Erro desconhecido, entre em contato com o suporte."])
+          setModalErroAberto(true)
+        }
+      })
   }
 
   const fecharModal = () => {
@@ -141,7 +141,7 @@ const FornecedorForm = () => {
       nome: '',
       cnpj: '',
       email: '',
-      tipoFornecedor: 'COMUM', 
+      tipoFornecedor: 'COMUM',
       endereco: {
         cep: '',
         logradouro: '',
@@ -150,7 +150,7 @@ const FornecedorForm = () => {
         bairro: '',
         cidade: '',
         estado: '',
-        pais: 'Brasil', 
+        pais: 'Brasil',
       }
     })
   }
@@ -345,9 +345,8 @@ const FornecedorForm = () => {
             required
           />
         </div>
-
-        <button type="submit" className="btn-success">
-          {id ? 'Editar' : 'Adicionar'}
+        <button type="submit" className="btn btn-success" style={{ width: '100%' }}>
+          {id ? 'Editar Fornecedor' : 'Adicionar Fornecedor'}
         </button>
       </form>
 
@@ -359,8 +358,8 @@ const FornecedorForm = () => {
         overlayClassName="overlay"
       >
         <div className="modalContent">
-          <FaCheckCircle className="icon successIcon"/>
-          <h2>{id? 'Fornecedor atualizado com sucesso': 'Fornecedor adicionado com sucesso'}</h2>
+          <FaCheckCircle className="icon successIcon" />
+          <h2>{id ? 'Fornecedor atualizado com sucesso' : 'Fornecedor adicionado com sucesso'}</h2>
           <div className="modalButtons">
             <button onClick={fecharModal} className="btn btn-secondary">Fechar</button>
             {!id && (<button onClick={adicionarOutroFornecedor} className="btn btn-success">Adicionar outro</button>)}
@@ -375,8 +374,8 @@ const FornecedorForm = () => {
         className="modal"
         overlayClassName="overlay"
       >
-         <div className="modalContent">
-          <FaExclamationTriangle className="icon errorIcon"/>
+        <div className="modalContent">
+          <FaExclamationTriangle className="icon errorIcon" />
           <h2>Ocorreu um ou mais erros: </h2>
           {
             mensagensError.map((mensagem, index) => (
@@ -385,7 +384,7 @@ const FornecedorForm = () => {
           }
           <br />
           <button onClick={fecharModalErro} className="btn btn-secondary">Fechar</button>
-         </div>
+        </div>
       </Modal>
     </div>
   )
