@@ -73,7 +73,7 @@ const ProdutoList = () => {
                 <th>Nome:</th>
                 <th>Preço:</th>
                 <th>Descrição:</th>
-                <th>Quantidade em Estoque:</th>
+                <th>Quantidade:</th>
                 <th>Fornecedor:</th>
                 <th>Ações:</th>
             </thead>
@@ -89,7 +89,7 @@ const ProdutoList = () => {
                                 <Link to={`/edit-produtos/${produto.id}`} className="btn btn-sm btn-warning">
                                     <FaEdit className="icon icon-btn" /> Editar
                                 </Link>
-                                <button onClick={() => abrirModal(produto)} className="btn btn-sm btn-danger" style={{ marginTop: '10px' }}>
+                                <button onClick={() => abrirModal(produto)} className="btn btn-sm btn-danger">
                                     <FaTrash className="icon icon-btn" /> Excluir
                                 </button>
                             </td>
