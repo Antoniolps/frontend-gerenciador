@@ -1,137 +1,132 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react'
-import { useState, useEffect } from 'react';
-import axios from '../../api';
-import { Link } from 'react-router-dom';
-import { FaPlus, FaEdit, FaTrash, FaCheckCircle, FaExclamationTriangle, FaQuestionCircle } from 'react-icons/fa';
-import Modal from 'react-modal';
-
-
+import React, { useEffect, useState } from 'react'
+import axios from '../../api'
+import { FaPlus, FaEdit, FaTrash, FaExclamationTriangle, FaCheckCircle, FaQuestionCircle } from 'react-icons/fa'
+import Modal from 'react-modal'
+import { Link } from 'react-router-dom'
 const ProdutoList = () => {
-  const [produtos, setProdutos] = useState([]);
-  const [produtoSelecionado, setProdutoSelecionado] = useState(null);
-  const [modalAberto, setModalAberto] = useState(false);
-  const [modalSucessoAberto, setModalSucessoAberto] = useState(false);
-  const [tooltipAberto, setTooltipAberto] = useState(false);
 
-  useEffect(() => {
-    axios.get('/produtos')
-    .then((response) => {
-      setProdutos(response.data);
-    }).catch((error) => {
-      console.error("Erro ao carregar produtos.", error);
-    });
-  },[]);
+    const [produtos, setProdutos] = useState([])
+    const [modalAberto, setModalAberto] = useState(false)
+    const [produtoSelecionado, setProdutoSelecionado] = useState(null)
+    const [modalSucessoAberto, setModalSucessoAberto] = useState(false)
+    const [tooltipAberto, setTooltipAberto] = useState(false)
 
-  const abrirModal = (fornecedor) => {
-    setProdutoSelecionado(fornecedor);
-    setModalAberto(true);
-  };
+    useEffect(() => {
+        axios.get("/produtos")
+        .then(response => setProdutos(response.data))
+        .catch(error => console.error("Erro ao carregar a lista de produtos: ", error))
+    }, [])
 
-  const fecharModal = () => {
-      setProdutoSelecionado(null);
-      setModalAberto(false);
-  };
+    const abrirModal = (produto) => {
+        setProdutoSelecionado(produto)
+        setModalAberto(true)
+    }
 
-  const abrirModalSucesso = () => {
-      setModalSucessoAberto(true);
-      setTimeout(() => setModalSucessoAberto(false), 2000);
-  };
+    const fecharModal = () => {
+        setModalAberto(false)
+        setProdutoSelecionado(null)
+    }
 
-  const removerProduto = () => {
-    axios.delete(`/produtos/${produtoSelecionado.id}`)
-    .then(() => {
-      setProdutos(prevProdutos => prevProdutos.filter(produto => produto.id !== produtoSelecionado.id));
-      fecharModal();
-      abrirModalSucesso();
-    }).catch((error) => {
-      console.error("Erro ao excluir produto.", error);
-    });
-  };
+    const abrirModalSucesso = () => {
+        setModalSucessoAberto(true)
+        setTimeout(() => setModalSucessoAberto(false), 2000)
+    }
 
-  const toggleTooltip = () => {
-    setTooltipAberto(!tooltipAberto);
-  };
+    const removerProduto = () => {
+        axios.delete(`/produtos/${produtoSelecionado.id}`)
+            .then(() => {
+                setProdutos(prevProdutos => prevProdutos.filter(produto => produto.id !== produtoSelecionado.id))
+                fecharModal()
+                abrirModalSucesso()
+            })
+            .catch(error => {
+                console.error("Ocorreu um erro: ", error)
+                fecharModal()
+            })
+    }
+
+    const toggleTooltip = () => {
+        setTooltipAberto(!tooltipAberto)
+    }
 
   return (
     <div className="container mt-5">
-      <h2 className="mb-4" style={{position: "relative"}}>Lista de Produtos
-        <FaQuestionCircle
-          className='tooltip-icon'
-          onMouseEnter={toggleTooltip}
-          onMouseLeave={toggleTooltip}
-        />
-        {tooltipAberto && (<div className='tooltip'>
-          Aqui você pode visualizar, editar e excluir os produtos cadastrados no sistema.
-        </div>)}
-      </h2>
-      <Link to="/add-produtos" className="btn btn-primary mb-2">
-        <FaPlus className="icon"/> Adicionar Produto
-      </Link>
-      <table className="table">
-        <thead>
-          <th>Nome:</th>
-          <th>Descrição:</th>
-          <th>Preço:</th>
-          <th>Quantidade:</th>
-          <th>Ações:</th>
-        </thead>
-        <tbody>
-          {
-            produtos.map((produto) => {
-              return (
-                <tr key={produto.id}>
-                  <td>{produto.nome}</td>
-                  <td>{produto.descricao}</td>
-                  <td>{"R$ " + produto.preco}</td>
-                  <td>{produto.quantidadeEstoque}</td>
-                  <td>
-                    <Link to={`/edit-produtos/${produto.id}`} className="btn btn-sm btn-warning">
-                      <FaEdit className="icon icon-btn"/> Editar
-                    </Link>
-                    <button onClick={() => abrirModal(produto)} className="btn btn-sm btn-danger">
-                      <FaTrash className="icon icon-btn"/> Excluir
-                    </button>
-                  </td>
-                </tr>
-              )
-            })
-          }
-        </tbody>
-      </table>
+        <h2 className="mb-4" style={{ position: 'relative' }}>
+                Lista de Produtos{' '}
+                <FaQuestionCircle
+                    className="tooltip-icon"
+                    onClick={toggleTooltip}
+                />
+                {tooltipAberto && (
+                    <div className="tooltip">
+                        Aqui você pode ver, editar ou excluir produtos cadastrados no sistema.
+                    </div>
+                )}
+            </h2>
+            <Link to="/add-produtos" className="btn btn-primary mb-2">
+                <FaPlus className="icon" /> Adicionar Produto
+            </Link>
 
-      <Modal
-        isOpen={modalAberto}
-        onRequestClose={fecharModal}
-        className="modal"
-        overlayClassName="overlay"
-      >
-        <div className="modalContent">
-          <FaExclamationTriangle className="icon"/>
-            <h2>Confirmar Exclusão</h2>
-              <p>
-                Tem certeza que deseja excluir o fornecedor 
-                <br />  
-                {produtoSelecionado && produtoSelecionado.nome}?
-              </p>
-              <div className="modalButtons">
-                <button onClick={fecharModal} className="btn btn-secondary">Cancelar</button>
-                <button onClick={removerProduto} className="btn btn-danger">Excluir</button>
-              </div>
-        </div>
-      </Modal>
+        <table className="table">
+            <thead>
+                <th>Nome:</th>
+                <th>Preço:</th>
+                <th>Descrição:</th>
+                <th>Quantidade em Estoque:</th>
+                <th>Fornecedor:</th>
+                <th>Ações:</th>
+            </thead>
+            <tbody>
+                {produtos.map(produto => (
+                    <tr key={produto.id}>
+                        <td>{produto.nome}</td>
+                        <td>{parseFloat(produto.preco).toFixed(2)}</td>
+                        <td>{produto.descricao}</td>
+                        <td>{produto.quantidadeEstoque}</td>
+                        <td>{produto.fornecedor.nome ? produto.fornecedor.nome : "..."}</td>
+                        <td>
+                                <Link to={`/edit-produtos/${produto.id}`} className="btn btn-sm btn-warning">
+                                    <FaEdit className="icon icon-btn" /> Editar
+                                </Link>
+                                <button onClick={() => abrirModal(produto)} className="btn btn-sm btn-danger" style={{ marginTop: '10px' }}>
+                                    <FaTrash className="icon icon-btn" /> Excluir
+                                </button>
+                            </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
 
-      <Modal
-        isOpen={modalSucessoAberto}
-        onRequestClose={() => setModalSucessoAberto(false)}
-        className="modal"
-        overlayClassName="overlay"
-      >
-        <div className="modalContent">
-          <FaCheckCircle className="icon successIcon"/>
-          <h2>Produto excluído com sucesso!</h2>
-        </div>
-      </Modal>
+        <Modal
+                isOpen={modalAberto}
+                onRequestClose={fecharModal}
+                className="modal"
+                overlayClassName="overlay"
+            >
+                <div className="modalContent">
+                    <FaExclamationTriangle className="icon" />
+                    <h2>Confirmar Exclusão</h2>
+                    <p>Tem certeza que deseja excluir o produto {produtoSelecionado && produtoSelecionado.nome}?</p>
+                    <div className="modalButtons">
+                        <button onClick={fecharModal} className="btn btn-secondary">Cancelar</button>
+                        <button onClick={removerProduto} className="btn btn-danger">Excluir</button>
+                    </div>
+                </div>
+            </Modal>
+
+        <Modal
+            isOpen={modalSucessoAberto}
+            onRequestClose={() => setModalSucessoAberto(false)}
+            className="modal"
+            overlayClassName="overlay"
+        >
+            <div className="modalContent">
+                <FaCheckCircle className="icon successIcon" />
+                <h2>Produto excluído com sucesso!</h2>
+            </div>
+        </Modal>
+
     </div>
   )
 }
