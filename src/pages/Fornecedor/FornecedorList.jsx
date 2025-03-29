@@ -84,7 +84,6 @@ const FornecedorList = () => {
                 <thead>
                     <th>Nome:</th>
                     <th>CNPJ:</th>
-                    <th>Email:</th>
                     <th>Tipo:</th>
                     <th>Ações:</th>
                 </thead>
@@ -95,7 +94,6 @@ const FornecedorList = () => {
                                 <tr key={fornecedor.id}>
                                     <td>{fornecedor.nome}</td>
                                     <td>{fornecedor.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, "$1.$2.$3/$4-$5")}</td>
-                                    <td>{fornecedor.email}</td>
                                     <td>{fornecedor.tipoFornecedor}</td>
                                     <td>
                                         <button onClick={() => abrirModalEndereco(fornecedor)} className="btn btn-sm btn-primary">

@@ -12,7 +12,6 @@ const FornecedorForm = () => {
   const [fornecedor, setFornecedor] = useState({
     nome: '',
     cnpj: '',
-    email: '',
     tipoFornecedor: 'COMUM', //Tipo inicial
     endereco: {
       cep: '',
@@ -47,7 +46,6 @@ const FornecedorForm = () => {
       setFornecedor({
         nome: '',
         cnpj: '',
-        email: '',
         tipoFornecedor: 'COMUM', //Tipo inicial
         endereco: {
           cep: '',
@@ -140,7 +138,6 @@ const FornecedorForm = () => {
     setFornecedor({
       nome: '',
       cnpj: '',
-      email: '',
       tipoFornecedor: 'COMUM',
       endereco: {
         cep: '',
@@ -196,20 +193,6 @@ const FornecedorForm = () => {
             name='cnpj'
             value={fornecedor.cnpj}
             onChange={e => setFornecedor({ ...fornecedor, cnpj: e.target.value })}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">Email do fornecedor: </label>
-          <input
-            type="email"
-            className='form-control'
-            id='email'
-            name='email'
-            pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
-            title='Digite um email válido'
-            value={fornecedor.email}
-            onChange={e => setFornecedor({ ...fornecedor, email: e.target.value })}
             required
           />
         </div>
