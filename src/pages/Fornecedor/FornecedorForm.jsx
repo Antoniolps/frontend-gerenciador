@@ -11,6 +11,7 @@ const FornecedorForm = () => {
 
   const [fornecedor, setFornecedor] = useState({
     nome: '',
+    email: '',
     cnpj: '',
     tipoFornecedor: 'COMUM', //Tipo inicial
     endereco: {
@@ -45,6 +46,7 @@ const FornecedorForm = () => {
       // Se não houver id, redefine o estado para adicionar um novo fornecedor
       setFornecedor({
         nome: '',
+        email: '',
         cnpj: '',
         tipoFornecedor: 'COMUM', //Tipo inicial
         endereco: {
@@ -137,6 +139,7 @@ const FornecedorForm = () => {
     setModalAberto(false)
     setFornecedor({
       nome: '',
+      email: '',
       cnpj: '',
       tipoFornecedor: 'COMUM',
       endereco: {
@@ -196,6 +199,20 @@ const FornecedorForm = () => {
             required
           />
         </div>
+        <div className="form-group">
+           <label htmlFor="email">Email do fornecedor: </label>
+           <input
+             type="email"
+             className='form-control'
+             id='email'
+             name='email'
+             pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
+             title='Digite um email válido'
+             value={fornecedor.email}
+             onChange={e => setFornecedor({ ...fornecedor, email: e.target.value })}
+             required
+           />
+         </div>
         <div className="form-group">
           <label htmlFor="tipoFornecedor">Tipo de Fornecedor</label>
           <select

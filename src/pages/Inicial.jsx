@@ -1,14 +1,20 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Bar } from 'react-chartjs-2'
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js'
 import '../index.css'
+import axios from '../api'
 
 // Registrar componentes do ChartJS
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const Inicial = () => {
+  const [estatisticas, setEstatisticas] = useState({
+    totalFornecedores: 0,
+    totalClientes: 0,
+    totalProdutos: 0,
+  });
   // Dados para o gráfico de vendas
   const vendasData = {
     labels: ['Maio', 'Junho', 'Julho'],
@@ -33,28 +39,37 @@ const Inicial = () => {
     ],
   }
 
+  useEffect(() => {
+    axios.get('/estatisticas')
+      .then((response) => {
+        setEstatisticas(response.data);
+      }).catch((error) => {
+        console.error("Erro ao carregar estatisticas.", error);
+      });
+  }, [])
+
   return (
     <div className="inicial-container" style={{ margin: '20px' }}>
       <Link to="/listar-fornecedores" className="stat-box stat-box-blue">
         <h3>Fornecedores</h3>
-        <p>16</p>
+        <p>{estatisticas.totalFornecedores}</p>
       </Link>
       <Link to="/listar-clientes" className="stat-box stat-box-green">
         <h3>Clientes</h3>
-        <p>80</p>
+        <p>{estatisticas.totalClientes}</p>
       </Link>
       <Link to="/listar-produtos" className="stat-box stat-box-orange">
         <h3>Produtos</h3>
-        <p>50</p>
+        <p>{estatisticas.totalProdutos}</p>
       </Link>
       <div className="charts-container">
         <div className="chart">
           <h3>Vendas de Produtos (Últimos 3 meses)</h3>
-          <Bar data={vendasData}/>
+          <Bar data={vendasData} />
         </div>
         <div className="chart">
           <h3>Novos Clientes (Últimos 3 meses)</h3>
-          <Bar data={clientesData}/>
+          <Bar data={clientesData} />
         </div>
       </div>
     </div>

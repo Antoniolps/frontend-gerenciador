@@ -83,6 +83,7 @@ const FornecedorList = () => {
             <table className="table">
                 <thead>
                     <th>Nome:</th>
+                    <th>Email:</th>
                     <th>CNPJ:</th>
                     <th>Tipo:</th>
                     <th>Ações:</th>
@@ -93,6 +94,7 @@ const FornecedorList = () => {
                             return (
                                 <tr key={fornecedor.id}>
                                     <td>{fornecedor.nome}</td>
+                                    <td>{fornecedor.email}</td>
                                     <td>{fornecedor.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, "$1.$2.$3/$4-$5")}</td>
                                     <td>{fornecedor.tipoFornecedor}</td>
                                     <td>

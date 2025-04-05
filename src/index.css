@@ -331,6 +331,21 @@
     display: flex;
     flex-direction: column;
   }
+
+  .dropdown-menu button {
+    background-color: #333;
+    color: #ffffff;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 10px 20px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .dropdown-menu button:hover {
+    background-color: #495057;
+  }
   
   .dropdown-menu a {
     color: #ffffff;

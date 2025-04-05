@@ -1,11 +1,10 @@
-// O Context API permite compartilhar dados entre componentes sem precisar passar props manualmente
-// Isso evita o "prop drilling" — passar props de pai para filho até chegar onde precisa.
-
 import { createContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode'
+import api from '../api' // usa o axios com baseURL do .env e interceptor automático
 
 // 1. Criamos o Context: uma "caixa global" para guardar e compartilhar informações (como o token e o usuário logado)
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext()
 
 // 2. Criamos o Provider: componente que envolve a aplicação e fornece os dados do Context para todos os filhos
@@ -26,21 +25,15 @@ export const AuthProvider = ({ children }) => {
         logout() // Se o token for inválido, faz logout automático
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
 
   // Função para fazer login e armazenar o token
   const login = async (username, password) => {
     // eslint-disable-next-line no-useless-catch
     try {
-      const response = await fetch('http://localhost:8080/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password})
-      })
-
-      if (!response.ok) throw new Error('Usuário ou senha inválidos')
-
-      const data = await response.json()
+      const response = await api.post('/auth/login', { username, password }) // ✅ usando api com baseURL e interceptor
+      const data = response.data
       const novoToken = data.token
 
       localStorage.setItem('token', novoToken) // Salva o token no navegador

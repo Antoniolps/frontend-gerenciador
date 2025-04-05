@@ -62,12 +62,12 @@ const Register = () => {
         <input
           type="password"
           placeholder="Senha"
-          name="senha"
+          name="password"
           value={formData.password}
           onChange={handleChange}
           required
         />
-        <select name="role" value={formData.role} onChange={handleChange}>
+        <select name="role" value={formData.role} onChange={handleChange} style={{ marginBottom: '15px', borderRadius: '5px', padding: '5px', width: '100%', border: '1px solid #ccc' }}>
           <option value="ADMIN">ADMIN</option>
           <option value="USER">USER</option>
         </select>
