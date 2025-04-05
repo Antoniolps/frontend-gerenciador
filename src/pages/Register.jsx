@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import api from '../api'
 import './Login.css'
 
 const Register = () => {
@@ -21,22 +22,20 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setErro(null)
-    try {
-      const response = await fetch('http://localhost:8080/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+    const body = JSON.stringify(formData)
+
+    const request = api.post('/auth/register', body)
+    request
+      .then(() => {
+        navigate('/login')
       })
-
-      if (!response.ok) {
-        throw new Error('Erro ao registrar')
-      }
-
-      navigate('/login')
-    // eslint-disable-next-line no-unused-vars
-    } catch (error) {
-      setErro('Erro ao registrar usuário')
-    }
+      .catch((error) => {
+        if (error.response) {
+          setErro(error.response.data.message)
+        } else {
+          setErro('Ocorreu um erro ao registrar o usuário.')
+        }
+      })
   }
 
   return (
