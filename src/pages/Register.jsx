@@ -22,9 +22,8 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setErro(null)
-    const body = JSON.stringify(formData)
 
-    const request = api.post('/auth/register', body)
+    const request = api.post('/auth/register', formData)
     request
       .then(() => {
         navigate('/login')
